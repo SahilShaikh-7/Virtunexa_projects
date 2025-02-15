@@ -1,1 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial Calculator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        .calculator-container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 600px;
+        }
+        .result-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .error-message {
+            color: #dc3545;
+            display: none;
+            margin-top: 0.5rem;
+        }
+        .result-value {
+            font-family: monospace;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="calculator-container">
+            <h1 class="text-center mb-4">Factorial Calculator</h1>
+            <div class="input-group mb-3">
+                <input type="number" id="numberInput" class="form-control" 
+                       placeholder="Enter a positive integer">
+                <button class="btn btn-primary" onclick="calculateFactorial()">
+                    Calculate
+                </button>
+            </div>
+            <div id="errorMessage" class="error-message"></div>
+            
+            <div class="result-card">
+                <h5>Iterative Result:</h5>
+                <p id="iterativeResult" class="result-value mb-0">-</p>
+            </div>
+            
+            <div class="result-card">
+                <h5>Recursive Result:</h5>
+                <p id="recursiveResult" class="result-value mb-0">-</p>
+            </div>
+        </div>
+    </div>
 
+    <script>
+        function iterativeFactorial(n) {
+            let result = 1;
+            for (let i = 2; i <= n; i++) {
+                result *= i;
+            }
+            return result;
+        }
+
+        function recursiveFactorial(n) {
+            if (n === 0) return 1;
+            return n * recursiveFactorial(n - 1);
+        }
+
+        function validateInput(input) {
+            const num = parseInt(input);
+            if (isNaN(num)) return "Please enter a valid number";
+            if (num < 0) return "Please enter a positive integer";
+            if (!Number.isInteger(num)) return "Please enter an integer";
+            return num;
+        }
+
+        function calculateFactorial() {
+            const input = document.getElementById('numberInput').value;
+            const errorElement = document.getElementById('errorMessage');
+            const validationResult = validateInput(input);
+
+            if (typeof validationResult === 'string') {
+                errorElement.textContent = validationResult;
+                errorElement.style.display = 'block';
+                document.getElementById('iterativeResult').textContent = '-';
+                document.getElementById('recursiveResult').textContent = '-';
+                return;
+            }
+
+            errorElement.style.display = 'none';
+            const number = validationResult;
+            
+            try {
+               
+                document.getElementById('iterativeResult').textContent = iterativeFactorial(number);
+                document.getElementById('recursiveResult').textContent = recursiveFactorial(number);
+            } catch (e) {
+                errorElement.textContent = "Error in calculation: " + e.message;
+                errorElement.style.display = 'block';
+            }
+        }
+        document.getElementById('numberInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') calculateFactorial();
+        });
+    </script>
+</body>
+</html>
