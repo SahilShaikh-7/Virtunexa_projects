@@ -1,6 +1,9 @@
 https://sites.google.com/view/pradip-patil/subjects
 
 
+2.2.	Write a program to implement Huffman Encoding using a greedy strategy.
+
+
 🎯 Objective
 
 To generate Huffman Codes (variable-length binary codes) for given characters based on their frequency.
